@@ -7,12 +7,13 @@ class TreeView extends Component {
 
   static propTypes = {
     treeData: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     const { treeData } = this.props;
     if (treeData) {
-      $('#data').jstree(treeData);
+      $('#data').jstree(treeData).on('select_node.jstree', onSelect);
     }
   }
 
