@@ -11,7 +11,7 @@ class TreeView extends Component {
   };
 
   componentDidMount() {
-    const { treeData } = this.props;
+    const { treeData, onSelect } = this.props;
     if (treeData) {
       $('#data').jstree(treeData).on('select_node.jstree', onSelect);
     }
