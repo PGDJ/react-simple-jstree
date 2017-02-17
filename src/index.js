@@ -20,36 +20,22 @@ class TreeView extends Component {
       $('#data').jstree(treeData)
         .bind('select_node.jstree', onSelect)
         .bind('create_node.jstree', function(e, data) {
-          console.log(e);
-          console.log(data);
-          const { node } = data;
-          addCategory({ parent_id: parseInt(node.parent), name: node.text })
+          data.instance.set_icon(data.node, 'fa fa-folder');
         })
         .bind('rename_node.jstree', function (e, obj) {
-          // console.log(obj);
           const { node } = obj;
           if (node.id.includes('j')) {
             addCategory(node, { parent_id: parseInt(node.parent), name: node.text })
-            // console.log(category);
-            // $('#data').jstree(true).set_id(node, category.id);
           } else {
             editCategory(node.id, { parent_id: parseInt(node.parent), name: node.text })
           }
         })
-        .bind('select_node.jstree', function (e, _data) {
-          if ( _selectedNodeId === _data.node.id ) {
-            if (count === 1) {
-              _data.instance.deselect_node(_data.node);
-              _selectedNodeId = "";
-              count = 0;
-            } else {
-              count++;
-            }
-          } else {
-              _selectedNodeId = _data.node.id;
-              count = 0;
-          }
-        }).jstree();
+        .bind('open_node.jstree', function (e, data) {
+          data.instance.set_icon(data.node, 'fa-folder-open');
+        })
+        .bind('close_node.jstree', function (e, data) {
+          data.instance.set_icon(data.node, 'fa fa-folder');
+        });
     }
   }
 
