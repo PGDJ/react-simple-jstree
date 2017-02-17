@@ -7,20 +7,87 @@ class TreeView extends Component {
 
   static propTypes = {
     treeData: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
+    selectedNode: PropTypes.string.isRequired,
+    addCategory: PropTypes.func.isRequired,
+    editCategory: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { treeData, onSelect } = this.props;
+    const { treeData, onSelect, addCategory, editCategory } = this.props;
+    let _selectedNodeId, count = 0;
     if (treeData) {
-      $('#data').jstree(treeData).on('select_node.jstree', onSelect);
+      $('#data').jstree(treeData)
+        .bind('select_node.jstree', onSelect)
+        .bind('create_node.jstree', function(e, data) {
+          console.log(e);
+          console.log(data);
+          const { node } = data;
+          addCategory({ parent_id: parseInt(node.parent), name: node.text })
+        })
+        .bind('rename_node.jstree', function (e, obj) {
+          // console.log(obj);
+          const { node } = obj;
+          if (node.id.includes('j')) {
+            addCategory(node, { parent_id: parseInt(node.parent), name: node.text })
+            // console.log(category);
+            // $('#data').jstree(true).set_id(node, category.id);
+          } else {
+            editCategory(node.id, { parent_id: parseInt(node.parent), name: node.text })
+          }
+        })
+        .bind('select_node.jstree', function (e, _data) {
+          if ( _selectedNodeId === _data.node.id ) {
+            if (count === 1) {
+              _data.instance.deselect_node(_data.node);
+              _selectedNodeId = "";
+              count = 0;
+            } else {
+              count++;
+            }
+          } else {
+              _selectedNodeId = _data.node.id;
+              count = 0;
+          }
+        }).jstree();
     }
   }
 
 
+  addNode = () => {
+    // console.log('add')
+    // console.log(this.props.selectedNode)
+    // let node = $('#data').jstree().create_node(this.props.selectedNode, 'New Category');
+
+    // $('#data').jstree().edit(node, undefined, (nodeReceived, status, cancelled) => {
+    //   console.log(node)
+    //   console.log(nodeReceived)
+    //   console.log(status)
+    //   if(status) {
+    //     this.props.addCategory({ parent_id: parseInt(node.parent), name: node.text })
+    //   }
+    // });
+  }
+
+  editNode = () => {
+    console.log('edit')
+    let nodeToEdit = $('#data').jstree().get_selected();
+    $('#data').jstree().edit(nodeToEdit);
+  }
+
   render() {
     return (
-      <div id="data" />
+      <div>
+        <div id="data" />
+        <footer className='button-row middle'>
+          <div className='button green' onClick={this.addNode}>
+            Add Category
+          </div>
+          <div className='button blue' onClick={this.editNode}>
+            Edit Category
+          </div>
+        </footer>
+      </div>
     );
   }
 }
