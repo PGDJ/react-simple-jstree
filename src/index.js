@@ -10,7 +10,8 @@ class TreeView extends Component {
     onSelect: PropTypes.func.isRequired,
     selectedNode: PropTypes.string.isRequired,
     addCategory: PropTypes.func.isRequired,
-    editCategory: PropTypes.func.isRequired
+    editCategory: PropTypes.func.isRequired,
+    deleteCategory: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -35,10 +36,10 @@ class TreeView extends Component {
         })
         .bind('close_node.jstree', function (e, data) {
           data.instance.set_icon(data.node, 'fa fa-folder');
-        });
+        })
         .bind('delete_node.jstree', function (e, data) {
           deleteCategory(node.id);
-        })
+        });
     }
   }
 
