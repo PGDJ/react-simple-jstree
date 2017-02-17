@@ -32,7 +32,7 @@ class TreeView extends Component {
           }
         })
         .bind('open_node.jstree', (e, data) => {
-          data.instance.set_icon(data.node, 'fa-folder-open');
+          data.instance.set_icon(data.node, 'fa fa-folder-open');
         })
         .bind('close_node.jstree', (e, data) => {
           data.instance.set_icon(data.node, 'fa fa-folder');
