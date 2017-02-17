@@ -14,7 +14,7 @@ class TreeView extends Component {
   };
 
   componentDidMount() {
-    const { treeData, onSelect, addCategory, editCategory } = this.props;
+    const { treeData, onSelect, addCategory, editCategory, deleteCategory } = this.props;
     let _selectedNodeId, count = 0;
     if (treeData) {
       $('#data').jstree(treeData)
@@ -22,12 +22,12 @@ class TreeView extends Component {
         .bind('create_node.jstree', function(e, data) {
           data.instance.set_icon(data.node, 'fa fa-folder');
         })
-        .bind('rename_node.jstree', function (e, obj) {
-          const { node } = obj;
+        .bind('rename_node.jstree', function (e, data) {
+          const { node } = data;
           if (node.id.includes('j')) {
-            addCategory(node, { parent_id: parseInt(node.parent), name: node.text })
+            addCategory(node, { parent_id: parseInt(node.parent), name: node.text });
           } else {
-            editCategory(node.id, { parent_id: parseInt(node.parent), name: node.text })
+            editCategory(node.id, { parent_id: parseInt(node.parent), name: node.text });
           }
         })
         .bind('open_node.jstree', function (e, data) {
@@ -36,30 +36,11 @@ class TreeView extends Component {
         .bind('close_node.jstree', function (e, data) {
           data.instance.set_icon(data.node, 'fa fa-folder');
         });
+        .bind('delete_node.jstree', function (e, data) {
+          deleteCategory(node.id);
+        })
     }
   }
-
-
-  // addNode = () => {
-  //   // console.log('add')
-  //   // console.log(this.props.selectedNode)
-  //   let node = $('#data').jstree().create_node(this.props.selectedNode, 'New Category');
-
-  //   $('#data').jstree().edit(node, undefined, (nodeReceived, status, cancelled) => {
-  //     console.log(node)
-  //     console.log(nodeReceived)
-  //     console.log(status)
-  //     if(status) {
-  //       this.props.addCategory({ parent_id: parseInt(node.parent), name: node.text })
-  //     }
-  //   });
-  // }
-
-  // editNode = () => {
-  //   // console.log('edit')
-  //   let nodeToEdit = $('#data').jstree().get_selected();
-  //   $('#data').jstree().edit(nodeToEdit);
-  // }
 
   render() {
     return (
