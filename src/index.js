@@ -20,10 +20,10 @@ class TreeView extends Component {
     if (treeData) {
       $('#data').jstree(treeData)
         .bind('select_node.jstree', onSelect)
-        .bind('create_node.jstree', function(e, data) {
+        .bind('create_node.jstree',(e, data)  => {
           data.instance.set_icon(data.node, 'fa fa-folder');
         })
-        .bind('rename_node.jstree', function (e, data) {
+        .bind('rename_node.jstree', (e, data) => {
           const { node } = data;
           if (node.id.includes('j')) {
             addCategory(node, { parent_id: parseInt(node.parent), name: node.text });
@@ -31,13 +31,14 @@ class TreeView extends Component {
             editCategory(node.id, { parent_id: parseInt(node.parent), name: node.text });
           }
         })
-        .bind('open_node.jstree', function (e, data) {
+        .bind('open_node.jstree', (e, data) => {
           data.instance.set_icon(data.node, 'fa-folder-open');
         })
-        .bind('close_node.jstree', function (e, data) {
+        .bind('close_node.jstree', (e, data) => {
           data.instance.set_icon(data.node, 'fa fa-folder');
         })
-        .bind('delete_node.jstree', function (e, data) {
+        .bind('delete_node.jstree', (e, data) => {
+          const { node } = data
           deleteCategory(node.id);
         });
     }
