@@ -39,7 +39,7 @@ class TreeView extends Component {
         })
         .bind('delete_node.jstree', (e, data) => {
           const { node } = data
-          deleteCategory(node.id);
+          deleteCategory(parseInt(node.id));
         });
     }
   }
