@@ -40,40 +40,30 @@ class TreeView extends Component {
   }
 
 
-  addNode = () => {
-    // console.log('add')
-    // console.log(this.props.selectedNode)
-    // let node = $('#data').jstree().create_node(this.props.selectedNode, 'New Category');
+  // addNode = () => {
+  //   // console.log('add')
+  //   // console.log(this.props.selectedNode)
+  //   let node = $('#data').jstree().create_node(this.props.selectedNode, 'New Category');
 
-    // $('#data').jstree().edit(node, undefined, (nodeReceived, status, cancelled) => {
-    //   console.log(node)
-    //   console.log(nodeReceived)
-    //   console.log(status)
-    //   if(status) {
-    //     this.props.addCategory({ parent_id: parseInt(node.parent), name: node.text })
-    //   }
-    // });
-  }
+  //   $('#data').jstree().edit(node, undefined, (nodeReceived, status, cancelled) => {
+  //     console.log(node)
+  //     console.log(nodeReceived)
+  //     console.log(status)
+  //     if(status) {
+  //       this.props.addCategory({ parent_id: parseInt(node.parent), name: node.text })
+  //     }
+  //   });
+  // }
 
-  editNode = () => {
-    console.log('edit')
-    let nodeToEdit = $('#data').jstree().get_selected();
-    $('#data').jstree().edit(nodeToEdit);
-  }
+  // editNode = () => {
+  //   // console.log('edit')
+  //   let nodeToEdit = $('#data').jstree().get_selected();
+  //   $('#data').jstree().edit(nodeToEdit);
+  // }
 
   render() {
     return (
-      <div>
-        <div id="data" />
-        <footer className='button-row middle'>
-          <div className='button green' onClick={this.addNode}>
-            Add Category
-          </div>
-          <div className='button blue' onClick={this.editNode}>
-            Edit Category
-          </div>
-        </footer>
-      </div>
+      <div id="data" />
     );
   }
 }
